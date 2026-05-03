@@ -53,6 +53,21 @@ Route.get("/read", (req, res) => {
 
   res.json(result);});
 
+Route.put("/update/:id", (req, res) => {
+    const task = tasks.find(t => t.id == req.params.id);
+    const index = tasks.findIndex(t => t.id === Number(req.params.id));
 
+    if (!tasks[index]) {
+      return res.status(404).json({ message: "Task not found" });
+    }
 
+    const { title, description, status } = req.body;
+
+    if (title) tasks[index].title = title;
+    if (description) tasks[index].description = description;
+    if (status) tasks[index].status = status;
+
+    res.json(tasks[index]);
+
+});
 module.exports = Route;
