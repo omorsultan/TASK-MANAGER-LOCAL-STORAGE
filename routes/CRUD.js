@@ -2,9 +2,9 @@ let tasks = []; // in-memory storage
 let id = 1;
 
 
-const createRoute = require("express").Router();
+const Route = require("express").Router();
 
-createRoute.post("/", (req, res) => {
+Route.post("/create", (req, res) => {
 
   const { title, description, status } = req.body;
 
@@ -23,4 +23,36 @@ createRoute.post("/", (req, res) => {
   res.status(201).json(newTask);
 });
 
-module.exports = createRoute;
+
+
+
+
+Route.get("/read", (req, res) => {
+  let result = [...tasks];
+  const { status, search, sort } = req.query;
+
+  // filter
+  if (status) {
+    result = result.filter(t => t.status === status);
+  }
+
+  // search
+  if (search) {
+    result = result.filter(t =>
+      t.title.toLowerCase().includes(search.toLowerCase()) ||
+      t.description.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
+  // sort
+  if (sort === "asc") {
+    result.sort((a, b) => a.title.localeCompare(b.title));
+  } else if (sort === "desc") {
+    result.sort((a, b) => b.title.localeCompare(a.title));
+  }
+
+  res.json(result);});
+
+
+
+module.exports = Route;

@@ -2,14 +2,15 @@ const express = require('express');
 const app = express();
 
 const dotenv = require('dotenv');
-const createRoute = require('./routes/CRUD');
+const Route = require('./routes/CRUD');
+
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use('/api/create', createRoute);
+app.use('/', Route);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
