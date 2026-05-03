@@ -6,7 +6,7 @@ dotenv.config();
 yarn add nodemon
 "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "nodemon index.js"
   } -> in package.json
 
 
