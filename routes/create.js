@@ -1,8 +1,8 @@
+const {create, update, read, deleter } = require("../controller/CRUD")
+
 const express = require('express');
 const createRouter = require('express').Router();
 
-createRouter.post('/', (req, res) => {
-  res.send('Hello from router');
-});
+createRouter.post('/', create);
 
 module.exports = createRouter;
