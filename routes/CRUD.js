@@ -1,4 +1,4 @@
-let tasks = []; // in-memory storage
+let tasks = []; 
 let id = 1;
 
 
@@ -23,20 +23,14 @@ Route.post("/create", (req, res) => {
   res.status(201).json(newTask);
 });
 
-
-
-
-
 Route.get("/read", (req, res) => {
   let result = [...tasks];
   const { status, search, sort } = req.query;
 
-  // filter
   if (status) {
     result = result.filter(t => t.status === status);
   }
 
-  // search
   if (search) {
     result = result.filter(t =>
       t.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -44,17 +38,18 @@ Route.get("/read", (req, res) => {
     );
   }
 
-  // sort
   if (sort === "asc") {
     result.sort((a, b) => a.title.localeCompare(b.title));
   } else if (sort === "desc") {
     result.sort((a, b) => b.title.localeCompare(a.title));
   }
 
-  res.json(result);});
+  res.json(result);
+});
+
+
 
 Route.put("/update/:id", (req, res) => {
-    const task = tasks.find(t => t.id == req.params.id);
     const index = tasks.findIndex(t => t.id === Number(req.params.id));
 
     if (!tasks[index]) {
@@ -70,4 +65,19 @@ Route.put("/update/:id", (req, res) => {
     res.json(tasks[index]);
 
 });
+
+
+
+Route.delete("/delete/:id", (req, res) => {
+  const index = tasks.findIndex(t => t.id === Number(req.params.id));
+
+  if (!tasks[index]) {
+    return res.status(404).json({ message: "Task not found" });
+  }
+
+  tasks.splice(index, 1);
+  res.json({ message: "Task deleted" });
+
+});
+
 module.exports = Route;
